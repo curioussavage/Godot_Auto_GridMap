@@ -21,6 +21,12 @@ func _physics_process(delta):
 		
 		# do editing stuff
 		
+func _input(event):
+	if event.is_action_pressed("fire") and player.is_editing:
+		grass.set_cell_item(current_cell.x, current_cell.y, current_cell.z, 0)
+		grass.update_cell(current_cell.x, current_cell.y, current_cell.z)
+		
+		
 func _process(delta):
 	if player.is_editing:
 		var point = player.camera.editor_target.global_transform.origin
@@ -28,8 +34,16 @@ func _process(delta):
 		var cell = grass.world_to_map(grass.to_local(point))
 		var item = grass.get_main_cell_item(cell.x, cell.y, cell.z)
 
+		var cursor = player.camera.editor_target.get_child(0)
+
 		if cell != current_cell:
-			print("item is ", item)
+			var cursor_pos = grass.map_to_world(cell.x, cell.y, cell.z)
+			cursor.global_transform.origin = cursor_pos
+			cursor.mesh.size = grass.cell_size
+			current_cell = cell
+			return
+#			print("item is ", item)
+			
 			grass.set_cell_item(cell.x, cell.y, cell.z, 0)
 			grass.update_cell(cell.x, cell.y, cell.z)
 #			if current_cell:
