@@ -293,8 +293,10 @@ func update_sub_cell( x, y, z ):
 		var mesh = meshes[ mask ][ "mesh" ]
 		var orientation = meshes[ mask ][ "orientation" ]
 		sub_gridmap.set_cell_item( x, y, z, mesh, orientation )
+#		print("setting cell item ", mesh)
 	else:
-		sub_gridmap.set_cell_item( x, y, z, -1 )
+		print("clearing cell item")
+#		sub_gridmap.set_cell_item( x, y, z, -1 )
 
 
 func update_bitmask_region( start : = Vector3.ZERO, end : = Vector3.ZERO ):
@@ -345,6 +347,7 @@ func update_cell( x, y, z ):
 				var new_x = ( x * 2 ) + tx
 				var new_y = ( y * 2 ) + ty
 				var new_z = ( z * 2 ) + tz
+#				print("calling update subcell ", new_x, new_y, new_z)
 				update_sub_cell( new_x, new_y, new_z )
 
 
