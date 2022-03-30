@@ -12,7 +12,8 @@
 [sub_resource type="CubeMesh" id=2]
 
 [sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 0.796078, 0.141176, 0.141176, 1 )
+flags_transparent = true
+albedo_color = Color( 0.796078, 0.141176, 0.141176, 0.509804 )
 
 [sub_resource type="CapsuleShape" id=1]
 height = 0.5
@@ -36,15 +37,10 @@ collision_mask = 2
 transform = Transform( 1, 0, 0, 0, 0.999848, -0.0174522, 0, 0.0174522, 0.999848, -0.103052, 2.17564, -8.60725 )
 
 [node name="cursor" type="MeshInstance" parent="InterpolatedCamera/AimRay/editor_target"]
-transform = Transform( 0.24872, -0.0243316, -0.00680038, 0.0166422, 0.208422, -0.137052, 0.0190082, 0.135898, 0.208975, -0.011282, 0, 0 )
+transform = Transform( 0.0615022, 0.0070179, -0.242215, -0.116937, 0.219731, -0.0233258, 0.212234, 0.119034, 0.0573383, -0.0112821, 0, 0 )
 visible = false
 mesh = SubResource( 2 )
 material/0 = SubResource( 3 )
-
-[node name="OmniLight" type="OmniLight" parent="InterpolatedCamera/AimRay/editor_target"]
-light_color = Color( 0.945098, 0.933333, 0.0784314, 1 )
-light_energy = 16.0
-omni_range = 1.064
 
 [node name="SpringArm" type="SpringArm" parent="."]
 transform = Transform( 1, 0, 0, 0, 0.87462, 0.48481, 0, -0.48481, 0.87462, 0, 0.5, 0.5 )

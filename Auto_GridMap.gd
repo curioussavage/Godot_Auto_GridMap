@@ -268,8 +268,9 @@ func get_main_cell_item( x, y, z ) -> int:
 func set_cell_item( x: int, y: int, z: int, item: int, orientation: int = 0 ):
 	.set_cell_item( x, y, z, item )
 	
-	if Engine.editor_hint:
-		update_bitmask_area( x, y, z )
+#	if Engine.editor_hint:
+	# not running this means we don't update the surrounding tiles
+	update_bitmask_area( x, y, z )
 
 
 func update_bitmask_area( x, y, z ):
@@ -295,8 +296,8 @@ func update_sub_cell( x, y, z ):
 		sub_gridmap.set_cell_item( x, y, z, mesh, orientation )
 #		print("setting cell item ", mesh)
 	else:
-		print("clearing cell item")
-#		sub_gridmap.set_cell_item( x, y, z, -1 )
+#		print("clearing cell item")
+		sub_gridmap.set_cell_item( x, y, z, -1 )
 
 
 func update_bitmask_region( start : = Vector3.ZERO, end : = Vector3.ZERO ):
@@ -341,14 +342,16 @@ func update_bitmask_region( start : = Vector3.ZERO, end : = Vector3.ZERO ):
 
 
 func update_cell( x, y, z ):
+	print("updating cell ", x, y, z)
 	for tx in 2:
 		for ty in 2:
 			for tz in 2:
 				var new_x = ( x * 2 ) + tx
 				var new_y = ( y * 2 ) + ty
 				var new_z = ( z * 2 ) + tz
-#				print("calling update subcell ", new_x, new_y, new_z)
+				print("calling update subcell ", new_x, new_y, new_z)
 				update_sub_cell( new_x, new_y, new_z )
+	print("-------------")
 
 
 
