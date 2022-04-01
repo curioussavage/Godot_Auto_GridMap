@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://tileset/grass.tres" type="MeshLibrary" id=1]
+[ext_resource path="res://test/Panel.gd" type="Script" id=2]
 [ext_resource path="res://tileset/dungeon.tres" type="MeshLibrary" id=3]
 [ext_resource path="res://tileset/point_meshlib.tres" type="MeshLibrary" id=4]
 [ext_resource path="res://Auto_GridMap.gd" type="Script" id=5]
@@ -9,6 +10,7 @@
 [ext_resource path="res://test/editor.gd" type="Script" id=8]
 [ext_resource path="res://assets/PixelMiddle.ttf" type="DynamicFontData" id=9]
 [ext_resource path="res://editorPlayer.tscn" type="PackedScene" id=10]
+[ext_resource path="res://test/level_name_popup.gd" type="Script" id=11]
 
 [sub_resource type="CubeMesh" id=4]
 size = Vector3( 1, 1, 1 )
@@ -98,8 +100,6 @@ material/0 = SubResource( 5 )
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 3 )
 
-[node name="AllSkyFree_ClearBlueSky" parent="." instance=ExtResource( 6 )]
-
 [node name="fps_logger" type="Node" parent="."]
 script = ExtResource( 7 )
 
@@ -108,62 +108,152 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = SubResource( 7 )
 
-[node name="editorModeLabel" type="Label" parent="UI"]
-margin_left = 12.0
-margin_top = 13.0
-margin_right = 97.0
-margin_bottom = 27.0
-text = "editing: grass"
+[node name="MarginContainer" type="MarginContainer" parent="UI"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
 
-[node name="Panel" type="PanelContainer" parent="UI"]
-margin_left = 944.0
-margin_top = 8.0
-margin_right = 1017.0
-margin_bottom = 90.0
+[node name="Panel" type="PanelContainer" parent="UI/MarginContainer"]
+margin_left = 883.0
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 234.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
+script = ExtResource( 2 )
 
-[node name="MarginContainer" type="MarginContainer" parent="UI/Panel"]
+[node name="MarginContainer" type="MarginContainer" parent="UI/MarginContainer/Panel"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 79.0
-margin_bottom = 133.0
+margin_right = 124.0
+margin_bottom = 217.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Panel/MarginContainer"]
-margin_right = 72.0
-margin_bottom = 126.0
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer/Panel/MarginContainer"]
+margin_right = 117.0
+margin_bottom = 210.0
 
-[node name="save_btn" type="Button" parent="UI/Panel/MarginContainer/VBoxContainer"]
-margin_right = 72.0
+[node name="save_btn" type="Button" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
+margin_right = 117.0
 margin_bottom = 22.0
 text = "save"
 
-[node name="exit_btn" type="Button" parent="UI/Panel/MarginContainer/VBoxContainer"]
+[node name="exit_btn" type="Button" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
 margin_top = 26.0
-margin_right = 72.0
+margin_right = 117.0
 margin_bottom = 48.0
 text = "exit"
 
-[node name="HSeparator" type="HSeparator" parent="UI/Panel/MarginContainer/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
 margin_top = 52.0
-margin_right = 72.0
+margin_right = 117.0
 margin_bottom = 56.0
 
-[node name="Button" type="Button" parent="UI/Panel/MarginContainer/VBoxContainer"]
+[node name="layers_btn" type="Button" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
 margin_top = 60.0
-margin_right = 72.0
+margin_right = 117.0
 margin_bottom = 82.0
 text = "Add Layer"
 
-[node name="layers_label" type="Label" parent="UI/Panel/MarginContainer/VBoxContainer"]
+[node name="layer_name_input" type="LineEdit" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
 margin_top = 86.0
-margin_right = 72.0
-margin_bottom = 102.0
+margin_right = 117.0
+margin_bottom = 112.0
+placeholder_text = "layer name"
+
+[node name="layers_label" type="Label" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
+margin_top = 116.0
+margin_right = 117.0
+margin_bottom = 132.0
 text = "Layers"
 
-[node name="layers_list" type="ItemList" parent="UI/Panel/MarginContainer/VBoxContainer"]
-margin_top = 106.0
-margin_right = 72.0
-margin_bottom = 126.0
-rect_min_size = Vector2( 0, 20 )
+[node name="layers_list" type="ItemList" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
+margin_top = 136.0
+margin_right = 117.0
+margin_bottom = 176.0
+rect_min_size = Vector2( 0, 40 )
 max_columns = 2
 
+[node name="HSeparator2" type="HSeparator" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
+margin_top = 180.0
+margin_right = 117.0
+margin_bottom = 184.0
+
+[node name="sky_btn" type="OptionButton" parent="UI/MarginContainer/Panel/MarginContainer/VBoxContainer"]
+margin_top = 188.0
+margin_right = 117.0
+margin_bottom = 210.0
+text = "AnotherPlanet"
+items = [ "AnotherPlanet", null, false, 0, null, "CartoonNightSky", null, false, 1, null, "ClearBlueSky", null, false, 2, null ]
+selected = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 80.0
+margin_bottom = 46.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
+
+[node name="nameLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+margin_right = 70.0
+margin_bottom = 16.0
+
+[node name="editorModeLabel" type="Label" parent="UI/MarginContainer/VBoxContainer"]
+margin_top = 20.0
+margin_right = 70.0
+margin_bottom = 36.0
+size_flags_horizontal = 0
+text = "Layer: None"
+valign = 1
+
+[node name="level_name_popup" type="Popup" parent="UI"]
+visible = true
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5625
+anchor_bottom = 0.58
+margin_left = -24.0
+margin_top = -20.0
+margin_right = 24.0
+margin_bottom = 20.0
+popup_exclusive = true
+script = ExtResource( 11 )
+
+[node name="PanelContainer" type="PanelContainer" parent="UI/level_name_popup"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MarginContainer" type="MarginContainer" parent="UI/level_name_popup/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 106.0
+margin_bottom = 81.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/level_name_popup/PanelContainer/MarginContainer"]
+margin_right = 99.0
+margin_bottom = 74.0
+
+[node name="Label" type="Label" parent="UI/level_name_popup/PanelContainer/MarginContainer/VBoxContainer"]
+margin_right = 99.0
+margin_bottom = 16.0
+text = "Name this level"
+
+[node name="level_name" type="LineEdit" parent="UI/level_name_popup/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 20.0
+margin_right = 99.0
+margin_bottom = 46.0
+placeholder_text = "..."
+
+[node name="accept_btn" type="Button" parent="UI/level_name_popup/PanelContainer/MarginContainer/VBoxContainer"]
+margin_top = 50.0
+margin_right = 99.0
+margin_bottom = 72.0
+text = "Accept"
+
 [node name="editorPlayer" parent="." instance=ExtResource( 10 )]
+
+[node name="skyContainer" type="Spatial" parent="."]
+
+[node name="AllSkyFree_ClearBlueSky" parent="skyContainer" instance=ExtResource( 6 )]
