@@ -1,15 +1,12 @@
 extends Spatial
 
 onready var player: Node = $editorPlayer
-onready var grass: AutoGridMap = $gridmaps/grass
-onready var castle: AutoGridMap = $gridmaps/castle
+#onready var grass: AutoGridMap = $level/gridmaps/grass
+#onready var castle: AutoGridMap = $level/gridmaps/castle
 
 onready var editorLabel: Label = find_node("editorModeLabel")
 
 signal layer_added(name)
-
-var layers = []
-
 
 var current_cell = null
 var is_editing = false
@@ -24,8 +21,39 @@ var maps = []
 var selected_index = 0
 var level_name = ""
 
+var point_meshlib = preload("res://tileset/point_meshlib.tres")
+var grass_meshlib = preload("res://tileset/grass.tres")
+var castle_meshlib = preload("res://tileset/dungeon.tres")
+const AutoGridMap = preload("res://Auto_GridMap.gd")
+
+var gridmap_cursor = preload("res://test/cursor.tscn")
+
+func load_level(name):
+	print("loading")
+	return
+	# TODO should reset state if we allow moving between levels
+	level_name = name
+	var packed_scene = load("res://levels/%s.scn" % name)
+	var instance = packed_scene.instance()
+	self.add_child(instance)
+	
+	self.maps = $level/gridmaps.get_children()
+	selected = maps[0]
+	
+#func _ready():
+#	var obj = Bullet.new()
 func add_layer(name):
-	layers.append(name)
+	
+	var newMap = AutoGridMap.new()
+	newMap.mesh_library = point_meshlib
+	newMap.mesh_library_3d = grass_meshlib
+	newMap.name = name
+	var cursor = gridmap_cursor.instance()
+	$level/gridmaps.add_child(newMap)
+	# may have to yield for a signal from newMap before adding children
+	newMap.add_child(cursor)
+	
+	maps.append(newMap)
 	emit_signal("layer_added", name)
 	# TODO add to tree
 
@@ -35,7 +63,7 @@ func save():
 		return
 	var scene = PackedScene.new()
 	# Only `node` and `rigid` are now packed.
-	var result = scene.pack(self)
+	var result = scene.pack(self.get_node("level"))
 	if result == OK:
 		var error = ResourceSaver.save("res://levels/%s.scn" % level_name, scene)  # Or "user://..."
 		if error != OK:
@@ -49,7 +77,7 @@ func _cycle_map():
 	selected = maps[selected_index]
 	
 func _set_label():
-	editorLabel.text = "editing %s" % selected.name.split("_")[1]
+	editorLabel.text = "layer: %s" % selected.name
 	
 func _enable_editing():
 	editorLabel.visible = true
@@ -84,9 +112,13 @@ func _toggle_hide_maps():
 	_refresh_map_visibility()
 
 func _ready():
-	selected = grass
-	maps.append(grass)
-	maps.append(castle)
+	pass
+#	selected = grass
+
+	# TODO remove these after removing the premade maps
+#	maps.append(grass)
+#	maps.append(castle)
+#	_set_label()
 		# do editing stuff
 
 func _input(event: InputEvent) -> void:

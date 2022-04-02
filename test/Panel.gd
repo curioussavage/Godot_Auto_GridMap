@@ -44,8 +44,10 @@ func on_add_layer_pressed():
 func on_layer_added(layer_name):
 	print("layer added")
 	layers_list.clear()
-	for layer in editor.layers:
-		layers_list.add_item(layer)
+	print("layers")
+	for layer in editor.maps:
+		print(layer.name)
+		layers_list.add_item(layer.name)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
