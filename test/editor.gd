@@ -1,6 +1,6 @@
 extends Spatial
 
-onready var player: Node = $editorPlayer
+onready var player: Node = $camera
 #onready var grass: AutoGridMap = $level/gridmaps/grass
 #onready var castle: AutoGridMap = $level/gridmaps/castle
 
@@ -265,6 +265,7 @@ func _update_cursor(force_refresh=false):
 var speed : float
 
 func _update_cam_angle():
+	return
 	if not selected:
 		return
 	var cam = player.camera

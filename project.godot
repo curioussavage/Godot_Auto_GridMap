@@ -63,7 +63,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Godot_Auto_GridMap_test"
-run/main_scene="res://test/test.tscn"
+run/main_scene="res://test/editor.tscn"
 
 [input]
 
