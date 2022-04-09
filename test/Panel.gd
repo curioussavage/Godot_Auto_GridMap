@@ -19,13 +19,15 @@ func _ready():
 	
 	
 func on_sky_selected(idx):
-	var container = editor.get_node("skyContainer")
+	var container = editor.level.find_node("skyContainer")
 	var current = container.get_child(0)
-	current.queue_free()
-	yield(current, "tree_exited")
+	if current:
+		current.queue_free()
+		yield(current, "tree_exited")
 	var scene = load("res://addons/AllSkyFree/AllSkyFree_%s.tscn" % sky_btn.text)
 	var instance = scene.instance()
 	container.add_child(instance)
+	instance.owner = editor.level
 
 func on_save_pressed():
 	editor.save()

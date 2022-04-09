@@ -14,7 +14,7 @@ func dir_contents(path):
 		var file_name = dir.get_next()
 		while file_name != "":
 			if not dir.current_is_dir():
-				filenames.append(file_name)
+				filenames.append(file_name.split(".")[0])
 #			else:
 #				print("Found file: " + file_name)
 			file_name = dir.get_next()

@@ -17,12 +17,8 @@ func _ready():
 		popup_centered()
 
 func on_accept():
-	print("accepted")
 	if not name_text.text:
 		return
-	
-
 	# TODO validate name is not taken
-	editor.level_name = name_text.text
-	get_node("../MarginContainer/VBoxContainer/nameLabel").text = "editing: %s" % editor.level_name
+	editor.new_level(name_text.text)
 	hide()
